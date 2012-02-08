@@ -1,0 +1,10 @@
+#Wed Feb 08 10:06:28 GMT-03:00 2012
+eclipse.preferences.version=1
+encoding//src/br/com/hst/jee/core/to/webservice/BaseTO.java=UTF-8
+encoding//src/br/com/hst/jee/core/to/webservice/FieldTO.java=UTF-8
+encoding//src/br/com/hst/jee/core/to/webservice/RequestTO.java=UTF-8
+encoding//src/br/com/hst/jee/core/to/webservice/ResponseTO.java=UTF-8
+encoding//src/br/com/pamcary/jee/pamcard/webservice/WSPamcard.java=UTF-8
+encoding//src/br/com/pamcary/jee/pamcard/webservice/WSPamcardService.java=UTF-8
+encoding//src/br/com/pamcary/jee/pamcard/webservice/WSPamcardServiceLocator.java=UTF-8
+encoding//src/br/com/pamcary/jee/pamcard/webservice/WSPamcardSoapBindingStub.java=UTF-8
