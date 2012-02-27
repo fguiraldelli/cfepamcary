@@ -19,8 +19,7 @@ public class Teste {
 		field.setKey("viagem.cartao.status.id");
 		field.setValue("1");
 		request.setFields(new FieldTO[] { field });
-		WSPamcardServiceLocator locator = new WSPamcardServiceLocator();
-		ResponseTO response = locator.getWSPamcard().execute(request);
+		WSPamcardServiceLocator locator = new WSPamcardServiceLocator();		ResponseTO response = locator.getWSPamcard().execute(request);
 		System.out.println(response.getContext());
 		System.out.println(response.getCertificate());
 		System.out.println(response.getToken());
