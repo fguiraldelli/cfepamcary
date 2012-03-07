@@ -1,29 +1,26 @@
 package com.hivelog.pamcard.cfe;
 
 import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.rpc.ServiceException;
 
-import br.com.hst.jee.core.to.webservice.FieldTO;
-import br.com.hst.jee.core.to.webservice.RequestTO;
-import br.com.hst.jee.core.to.webservice.ResponseTO;
-import br.com.pamcary.jee.pamcard.webservice.WSPamcardServiceLocator;
+import com.hivelog.pamcard.cfe.imp.CfeFacadeImp;
 
 public class Teste {
-	
-	public static void main (String [] args) throws RemoteException, ServiceException{
-		RequestTO request = new RequestTO();
-		request.setCertificate("");
-		request.setContext("FindCard");
-		FieldTO field = new FieldTO();
-		field.setKey("viagem.cartao.status.id");
-		field.setValue("1");
-		request.setFields(new FieldTO[] { field });
-		WSPamcardServiceLocator locator = new WSPamcardServiceLocator();		
-		ResponseTO response = locator.getWSPamcard().execute(request);
-		System.out.println(response.getContext());
-		System.out.println(response.getCertificate());
-		System.out.println(response.getToken());
+
+	public static void main(String[] args) throws RemoteException,
+			ServiceException {
+		CfeFacade cfe = new CfeFacadeImp();
+		cfe.setCertificate("");
+		cfe.setContext("FindCard");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("viagem.cartao.status.id", "1");
+		cfe.setFields(map);
+		cfe.execute();
+		System.out.println(cfe.getContext());
+		System.out.println(cfe.getCertificate());
 	}
 
 }
