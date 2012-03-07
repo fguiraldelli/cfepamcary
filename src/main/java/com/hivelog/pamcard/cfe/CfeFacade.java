@@ -1,7 +1,8 @@
 package com.hivelog.pamcard.cfe;
 
 import java.rmi.RemoteException;
-import java.util.HashMap;
+
+import java.util.Map;
 
 import javax.xml.rpc.ServiceException;
 
@@ -17,6 +18,6 @@ public interface CfeFacade {
 	public String getContext();
 	public void setCertificate(String string);
 	public String getCertificate();
-	public void setFields(HashMap<String, String> fields);
+	public void setFields(Map<String, String> fields);
 	public void execute() throws RemoteException, ServiceException;
 }

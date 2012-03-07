@@ -2,7 +2,6 @@ package com.hivelog.pamcard.cfe.imp;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,12 +39,12 @@ public class CfeFacadeImp implements CfeFacade {
 		return fields;
 	}
 
-	public void setFields(HashMap<String, String> map) {
+	public void setFields(Map<String, String> map) {
 		this.fields = map;
 	}
 
 	public void execute() throws RemoteException, ServiceException {
-		
+
 		RequestTO request = new RequestTO();
 		request.setCertificate(this.getCertificate());
 		request.setContext(this.getContext());
@@ -56,8 +55,8 @@ public class CfeFacadeImp implements CfeFacade {
 			fieldTO.setValue(entry.getValue());
 			listFieldTo.add(fieldTO);
 		}
-		request.setFields( (FieldTO[]) listFieldTo.toArray() );
-		WSPamcardServiceLocator locator = new WSPamcardServiceLocator();		
+		request.setFields(listFieldTo.toArray(new FieldTO[listFieldTo.size()]));
+		WSPamcardServiceLocator locator = new WSPamcardServiceLocator();
 		ResponseTO response = locator.getWSPamcard().execute(request);
 		this.setContext(response.getContext());
 		this.setCertificate(response.getCertificate().toString());
