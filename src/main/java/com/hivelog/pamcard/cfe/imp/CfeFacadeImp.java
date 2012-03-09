@@ -1,7 +1,11 @@
 package com.hivelog.pamcard.cfe.imp;
 
+import java.io.File;
+import java.io.IOException;
 import java.rmi.RemoteException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,53 +17,69 @@ import br.com.hst.jee.core.to.webservice.ResponseTO;
 import br.com.pamcary.jee.pamcard.webservice.WSPamcardServiceLocator;
 
 import com.hivelog.pamcard.cfe.CfeFacade;
+import com.hivelog.pamcard.util.PamcardUtil;
 
 public class CfeFacadeImp implements CfeFacade {
-	private String context;
-	private String certificate;
-	private Map<String, String> fields;
 
-	public String getContext() {
-		return context;
+	private static final String ciotNumeroKey = "viagem.antt.ciot.numero";
+	private static final String mensagemRetornoKey = "mensagem.codigo";
+	private static final String codigoOperacaoSucessoKey = "0";
+	private static final String mensagemOperacaoErro = "mensagem.descricao";
+	private static final String contextIncluirContratoFrete = "InsertFreightContract";
+	private static final String contextCancelarContratoFrete = "CancelTrip";
+
+	private Map<String, String> processResponseTO(RequestTO request)
+			throws RemoteException, ServiceException {
+		WSPamcardServiceLocator locator = new WSPamcardServiceLocator();
+		ResponseTO response = locator.getWSPamcard().execute(request);
+		Map<String, String> responseFields = new HashMap<String, String>();
+		for (int i = 0; i < response.getFields().length; i++) {
+			responseFields.put(response.getFields()[i].getKey(),
+					response.getFields()[i].getValue().toString());
+		}
+		return responseFields;
 	}
 
-	public void setContext(String context) {
-		this.context = context;
-	}
-
-	public String getCertificate() {
-		return certificate;
-	}
-
-	public void setCertificate(String certificate) {
-		this.certificate = certificate;
-	}
-
-	public Map<String, String> getFields() {
-		return fields;
-	}
-
-	public void setFields(Map<String, String> map) {
-		this.fields = map;
-	}
-
-	public void execute() throws RemoteException, ServiceException {
-
+	private RequestTO processRequestTO(String context,
+			String certificateFilepath, Map<String, String> fields)
+			throws CertificateException, IOException {
 		RequestTO request = new RequestTO();
-		request.setCertificate(this.getCertificate());
-		request.setContext(this.getContext());
+		request.setCertificate(PamcardUtil.getBytesFromFile(new File(
+				certificateFilepath)));
+		request.setContext(context);
 		List<FieldTO> listFieldTo = new ArrayList<FieldTO>();
-		for (Map.Entry<String, String> entry : getFields().entrySet()) {
+		for (Map.Entry<String, String> entry : fields.entrySet()) {
 			FieldTO fieldTO = new FieldTO();
 			fieldTO.setKey(entry.getKey());
 			fieldTO.setValue(entry.getValue());
 			listFieldTo.add(fieldTO);
 		}
 		request.setFields(listFieldTo.toArray(new FieldTO[listFieldTo.size()]));
-		WSPamcardServiceLocator locator = new WSPamcardServiceLocator();
-		ResponseTO response = locator.getWSPamcard().execute(request);
-		this.setContext(response.getContext());
-		this.setCertificate(response.getCertificate().toString());
+		return request;
+	}
+
+	public String incluirContratoFrete(String certificateFilepath,
+			Map<String, String> fields) throws Exception {
+		RequestTO request = processRequestTO(contextIncluirContratoFrete,
+				certificateFilepath, fields);
+		Map<String, String> responseMap = processResponseTO(request);
+		validarOperacaoSucesso(responseMap);
+		return responseMap.get(ciotNumeroKey);
+	}
+
+	private void validarOperacaoSucesso(Map<String, String> responseMap)
+			throws Exception {
+		String mensagem = responseMap.get(mensagemRetornoKey);
+		if (!mensagem.equals(codigoOperacaoSucessoKey))
+			throw new Exception(responseMap.get(mensagemOperacaoErro));
+	}
+
+	public void cancelarContratoFrete(String certificateFilepath,
+			Map<String, String> fields) throws Exception {
+		RequestTO request = processRequestTO(contextCancelarContratoFrete,
+				certificateFilepath, fields);
+		Map<String, String> responseMap = processResponseTO(request);
+		validarOperacaoSucesso(responseMap);
 	}
 
 }
