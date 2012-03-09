@@ -1,23 +1,37 @@
 package com.hivelog.pamcard.cfe;
 
-import java.rmi.RemoteException;
-
 import java.util.Map;
-
-import javax.xml.rpc.ServiceException;
 
 /**
  * Implementação dos requisitos do projeto Pamcard
  * 
- * @author rasf
- *
+ * @author mma
+ * 
  */
 public interface CfeFacade {
-	
-	public void setContext(String string);
-	public String getContext();
-	public void setCertificate(String string);
-	public String getCertificate();
-	public void setFields(Map<String, String> fields);
-	public void execute() throws RemoteException, ServiceException;
+
+	/**
+	 * Método para inclusão de um contrato
+	 * 
+	 * @param certificateFilepath
+	 *            Caminho do arquivo do Certificado
+	 * @param fields
+	 *            Campos de entrada
+	 * @return Número do Ciot
+	 * @throws Exception
+	 */
+	public String incluirContratoFrete(String certificateFilepath,
+			Map<String, String> fields) throws Exception;
+
+	/**
+	 * Método para cancelamento do contrato
+	 * 
+	 * @param certificateFilepath
+	 *            Caminho do arquivo do Certificado
+	 * @param fields
+	 *            Campos de entrada
+	 * @throws Exception
+	 */
+	public void cancelarContratoFrete(String certificateFilepath,
+			Map<String, String> fields) throws Exception;
 }
