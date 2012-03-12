@@ -11,16 +11,15 @@ import java.util.Map;
 public interface CfeFacade {
 
 	/**
-	 * Método para inclusão de um contrato
+	 * Método para inclusão de um contrato. Variaveis de retorno armazenadas em viagemId, ciotNumero 
 	 * 
 	 * @param certificateFilepath
 	 *            Caminho do arquivo do Certificado
 	 * @param fields
 	 *            Campos de entrada
-	 * @return Número do Ciot
 	 * @throws Exception
 	 */
-	public String incluirContratoFrete(String certificateFilepath,
+	public void incluirContratoFrete(String certificateFilepath,
 			Map<String, String> fields) throws Exception;
 
 	/**
@@ -34,4 +33,7 @@ public interface CfeFacade {
 	 */
 	public void cancelarContratoFrete(String certificateFilepath,
 			Map<String, String> fields) throws Exception;
+	
+	public String getViagemId();
+	public String getCiotNumero();
 }
