@@ -21,7 +21,10 @@ import com.hivelog.pamcard.util.PamcardUtil;
 
 public class CfeFacadeImp implements CfeFacade {
 
+	private String viagemId;
+	private String ciotNumero;
 	private static final String ciotNumeroKey = "viagem.antt.ciot.numero";
+	private static final String viagemIdKey = "viagem.id";
 	private static final String mensagemRetornoKey = "mensagem.codigo";
 	private static final String codigoOperacaoSucessoKey = "0";
 	private static final String mensagemOperacaoErro = "mensagem.descricao";
@@ -58,13 +61,14 @@ public class CfeFacadeImp implements CfeFacade {
 		return request;
 	}
 
-	public String incluirContratoFrete(String certificateFilepath,
+	public void incluirContratoFrete(String certificateFilepath,
 			Map<String, String> fields) throws Exception {
 		RequestTO request = processRequestTO(contextIncluirContratoFrete,
 				certificateFilepath, fields);
 		Map<String, String> responseMap = processResponseTO(request);
 		validarOperacaoSucesso(responseMap);
-		return responseMap.get(ciotNumeroKey);
+		this.setCiotNumero(responseMap.get(ciotNumeroKey));
+		this.setViagemId(responseMap.get(viagemIdKey));
 	}
 
 	private void validarOperacaoSucesso(Map<String, String> responseMap)
@@ -80,6 +84,22 @@ public class CfeFacadeImp implements CfeFacade {
 				certificateFilepath, fields);
 		Map<String, String> responseMap = processResponseTO(request);
 		validarOperacaoSucesso(responseMap);
+	}
+
+	public String getViagemId() {
+		return viagemId;
+	}
+
+	public void setViagemId(String viagemId) {
+		this.viagemId = viagemId;
+	}
+
+	public String getCiotNumero() {
+		return ciotNumero;
+	}
+
+	public void setCiotNumero(String ciotNumero) {
+		this.ciotNumero = ciotNumero;
 	}
 
 }
