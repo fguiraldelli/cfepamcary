@@ -21,7 +21,7 @@ import com.hivelog.pamcard.util.PamcardUtil;
 
 public class CfeFacadeImp implements CfeFacade {
 
-	private String viagemId;
+	private String viagemIdentificacao;
 	private String ciotNumero;
 	private static final String ciotNumeroKey = "viagem.antt.ciot.numero";
 	private static final String viagemIdKey = "viagem.id";
@@ -68,7 +68,7 @@ public class CfeFacadeImp implements CfeFacade {
 		Map<String, String> responseMap = processResponseTO(request);
 		validarOperacaoSucesso(responseMap);
 		this.setCiotNumero(responseMap.get(ciotNumeroKey));
-		this.setViagemId(responseMap.get(viagemIdKey));
+		this.setViagemIdentificacao(responseMap.get(viagemIdKey));
 	}
 
 	private void validarOperacaoSucesso(Map<String, String> responseMap)
@@ -86,12 +86,12 @@ public class CfeFacadeImp implements CfeFacade {
 		validarOperacaoSucesso(responseMap);
 	}
 
-	public String getViagemId() {
-		return viagemId;
+	public String getViagemIdentificacao() {
+		return viagemIdentificacao;
 	}
 
-	public void setViagemId(String viagemId) {
-		this.viagemId = viagemId;
+	public void setViagemIdentificacao(String viagemIdentificacao) {
+		this.viagemIdentificacao = viagemIdentificacao;
 	}
 
 	public String getCiotNumero() {

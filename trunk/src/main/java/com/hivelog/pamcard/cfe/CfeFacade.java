@@ -34,6 +34,6 @@ public interface CfeFacade {
 	public void cancelarContratoFrete(String certificateFilepath,
 			Map<String, String> fields) throws Exception;
 	
-	public String getViagemId();
+	public String getViagemIdentificacao();
 	public String getCiotNumero();
 }
