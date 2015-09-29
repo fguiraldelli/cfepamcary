@@ -1,0 +1,1 @@
+Sistema (logistiks) ao gerar uma OP e emitir, deverá se comunicar automaticamente com o sistema da PANCARY enviando um arquivo, essas informações contidas nesse arquivo, irá gerar automáticamente após validação um retorno, um número de autorização.
